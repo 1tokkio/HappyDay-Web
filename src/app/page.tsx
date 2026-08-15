@@ -1,0 +1,25 @@
+import { SiteHeader } from "@/components/site-header";
+import { Hero } from "@/components/hero";
+import { Services } from "@/components/services";
+import { Gallery } from "@/components/gallery";
+import { ProcessSteps } from "@/components/process-steps";
+import { QuoteSection } from "@/components/quote-form";
+import { SiteFooter } from "@/components/site-footer";
+import { WhatsAppFab } from "@/components/whatsapp-fab";
+
+export default function Home() {
+  return (
+    <>
+      <SiteHeader />
+      <main>
+        <Hero />
+        <Services />
+        <Gallery />
+        <ProcessSteps />
+        <QuoteSection />
+      </main>
+      <SiteFooter />
+      <WhatsAppFab />
+    </>
+  );
+}

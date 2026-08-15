@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-border: var(--border);
+
+  --color-c1: var(--c1);
+  --color-c1-soft: var(--c1-soft);
+  --color-c2: var(--c2);
+  --color-c2-soft: var(--c2-soft);
+  --color-c3: var(--c3);
+  --color-c3-soft: var(--c3-soft);
+  --color-c4: var(--c4);
+  --color-c4-soft: var(--c4-soft);
+  --color-c5: var(--c5);
+  --color-c5-soft: var(--c5-soft);
+
+  --color-accent: var(--c1);
+  --color-accent-soft: var(--c1-soft);
+  --color-whatsapp: #25d366;
+
+  --font-display: var(--font-fraunces), Georgia, "Iowan Old Style", serif;
+  --font-body: var(--font-jakarta), -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+:root {
+  --bg: #fbf9f5;
+  --surface: #ffffff;
+  --surface-alt: #f3eee6;
+  --ink: #2a2620;
+  --ink-soft: #746b5c;
+  --border: #e8e1d3;
+  --shadow: rgba(42, 38, 32, 0.1);
+
+  --c1: #d6236f;
+  --c1-soft: #fbe3ee;
+  --c2: #128a87;
+  --c2-soft: #dff3f2;
+  --c3: #c6721e;
+  --c3-soft: #fbe9d8;
+  --c4: #7a46a8;
+  --c4-soft: #ede1f6;
+  --c5: #b4900f;
+  --c5-soft: #faf0d6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1916;
+    --surface: #242019;
+    --surface-alt: #2b261e;
+    --ink: #f3eee6;
+    --ink-soft: #b4a995;
+    --border: #3a332a;
+    --shadow: rgba(0, 0, 0, 0.45);
+
+    --c1: #f1568f;
+    --c1-soft: #3a1f2a;
+    --c2: #3fc9c4;
+    --c2-soft: #16302e;
+    --c3: #e6975a;
+    --c3-soft: #372715;
+    --c4: #b98ce0;
+    --c4-soft: #2b2038;
+    --c5: #e0c258;
+    --c5-soft: #332c14;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  text-wrap: balance;
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes float-blob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(4deg);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
