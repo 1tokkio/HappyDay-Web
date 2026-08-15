@@ -7,3 +7,6 @@ export function waLink(text: string) {
 
 export const WHATSAPP_DEFAULT_MESSAGE =
   "Hola, quiero cotizar un evento con Happy Day";
+
+export const CONTACT_EMAIL = "Eventoshappyday2015@gmail.com";
+export const FACEBOOK_URL = "https://www.facebook.com/happydayeventos2019";

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
+  { href: "#nosotros", label: "Nosotros" },
   { href: "#servicios", label: "Servicios" },
   { href: "#galeria", label: "Galería" },
   { href: "#proceso", label: "Cómo trabajamos" },
@@ -29,9 +30,21 @@ function BrandMark() {
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-bg/90 backdrop-blur">
+    <header
+      className={`sticky top-0 z-40 border-b bg-bg/90 backdrop-blur transition-shadow duration-300 ${
+        scrolled ? "border-border shadow-[0_1px_0_0_var(--border),0_8px_20px_-12px_var(--shadow)]" : "border-transparent"
+      }`}
+    >
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
         <a
           href="#top"
@@ -46,9 +59,10 @@ export function SiteHeader() {
             <a
               key={link.href}
               href={link.href}
-              className="transition-colors hover:text-ink"
+              className="group relative py-1 transition-colors hover:text-ink"
             >
               {link.label}
+              <span className="absolute inset-x-0 -bottom-0.5 h-0.5 origin-left scale-x-0 rounded-full bg-accent transition-transform duration-300 group-hover:scale-x-100" />
             </a>
           ))}
         </nav>
@@ -56,7 +70,7 @@ export function SiteHeader() {
         <div className="hidden md:block">
           <a
             href="#cotizar"
-            className="inline-flex items-center justify-center rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            className="inline-flex items-center justify-center rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-all hover:opacity-90 active:scale-[0.97]"
           >
             Cotizar evento
           </a>
@@ -65,7 +79,7 @@ export function SiteHeader() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border md:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border transition-transform active:scale-[0.94] md:hidden"
           aria-label={open ? "Cerrar menú" : "Abrir menú"}
           aria-expanded={open}
         >
@@ -74,7 +88,7 @@ export function SiteHeader() {
       </div>
 
       {open && (
-        <nav className="border-t border-border bg-bg px-6 py-4 md:hidden">
+        <nav className="animate-[fade-in-down_0.2s_ease-out] border-t border-border bg-bg px-6 py-4 md:hidden">
           <ul className="flex flex-col gap-4 text-sm">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>

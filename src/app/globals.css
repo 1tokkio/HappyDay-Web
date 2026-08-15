@@ -23,51 +23,51 @@
   --color-accent-soft: var(--c1-soft);
   --color-whatsapp: #25d366;
 
-  --font-display: var(--font-fraunces), Georgia, "Iowan Old Style", serif;
-  --font-body: var(--font-jakarta), -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-fredoka), "Trebuchet MS", sans-serif;
+  --font-body: var(--font-poppins), -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 :root {
-  --bg: #fbf9f5;
+  --bg: #ffffff;
   --surface: #ffffff;
-  --surface-alt: #f3eee6;
-  --ink: #2a2620;
-  --ink-soft: #746b5c;
-  --border: #e8e1d3;
-  --shadow: rgba(42, 38, 32, 0.1);
+  --surface-alt: #fff7fb;
+  --ink: #2e2a2c;
+  --ink-soft: #6e6a6c;
+  --border: #ece3e8;
+  --shadow: rgba(46, 42, 44, 0.1);
 
-  --c1: #d6236f;
-  --c1-soft: #fbe3ee;
-  --c2: #128a87;
-  --c2-soft: #dff3f2;
-  --c3: #c6721e;
-  --c3-soft: #fbe9d8;
-  --c4: #7a46a8;
-  --c4-soft: #ede1f6;
-  --c5: #b4900f;
-  --c5-soft: #faf0d6;
+  --c1: #e91e8c;
+  --c1-soft: #fce4f1;
+  --c2: #00b5b8;
+  --c2-soft: #dcf5f5;
+  --c3: #f5821f;
+  --c3-soft: #fde9d8;
+  --c4: #7b4397;
+  --c4-soft: #efe1f5;
+  --c5: #d1a000;
+  --c5-soft: #fff3d1;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #1c1916;
-    --surface: #242019;
-    --surface-alt: #2b261e;
-    --ink: #f3eee6;
-    --ink-soft: #b4a995;
-    --border: #3a332a;
+    --bg: #201c20;
+    --surface: #2a252a;
+    --surface-alt: #322b33;
+    --ink: #f5f1f2;
+    --ink-soft: #b8afb4;
+    --border: #423a41;
     --shadow: rgba(0, 0, 0, 0.45);
 
-    --c1: #f1568f;
-    --c1-soft: #3a1f2a;
-    --c2: #3fc9c4;
-    --c2-soft: #16302e;
-    --c3: #e6975a;
-    --c3-soft: #372715;
-    --c4: #b98ce0;
-    --c4-soft: #2b2038;
-    --c5: #e0c258;
-    --c5-soft: #332c14;
+    --c1: #ff62b1;
+    --c1-soft: #3d1a2c;
+    --c2: #2fd8d3;
+    --c2-soft: #133433;
+    --c3: #ffa24d;
+    --c3-soft: #3a2414;
+    --c4: #b285d6;
+    --c4-soft: #2c1f3a;
+    --c5: #ffd23d;
+    --c5-soft: #3a2e10;
   }
 }
 
@@ -125,5 +125,38 @@ h3 {
   }
   50% {
     transform: translateY(-8px);
+  }
+}
+
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-in {
+  animation: fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-in {
+    animation: none;
   }
 }

@@ -1,30 +1,29 @@
 import type { Metadata } from "next";
-import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
+import { Fredoka, Poppins } from "next/font/google";
 import "./globals.css";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const fredoka = Fredoka({
+  variable: "--font-fredoka",
   subsets: ["latin"],
   weight: ["500", "600", "700"],
-  style: ["normal", "italic"],
 });
 
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Happy Day Eventos | Producción de eventos a domicilio",
+  title: "Happy Day Eventos | Producción de eventos a domicilio en Puerto Montt",
   description:
-    "Producción de eventos a domicilio en Chile: comida, juegos, animación, fotografía y magia para cumpleaños, Navidad y eventos corporativos. Cotiza tu evento hoy.",
+    "Productora de eventos de Puerto Montt: comida, juegos, animación, fotografía y magia para cumpleaños, Navidad y eventos corporativos. Nos trasladamos a tu lugar. Cotiza tu evento hoy.",
 };
 
 export const viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fbf9f5" },
-    { media: "(prefers-color-scheme: dark)", color: "#1c1916" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#201c20" },
   ],
 };
 
@@ -32,7 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="es"
-      className={`${fraunces.variable} ${jakarta.variable} h-full antialiased`}
+      className={`${fredoka.variable} ${poppins.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bg text-ink">
         {children}

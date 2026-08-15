@@ -6,13 +6,12 @@ import { Reveal } from "./reveal";
 import { waLink, WHATSAPP_DISPLAY, WHATSAPP_NUMBER } from "@/lib/constants";
 
 const SERVICE_OPTIONS = [
-  "Comida y dulces",
-  "Inflables y cama elástica",
-  "Animación y personajes",
-  "Fotografía y espejo selfie",
-  "Audio y ambientación",
-  "Mago",
-  "Navidad con Pascuero",
+  "Animación infantil",
+  "Juegos varios",
+  "Sector peque (2 a 5 años)",
+  "Amplificación",
+  "Servicios adicionales",
+  "Carritos (palomitas / algodón)",
   "No estoy seguro / quiero orientación",
 ];
 
@@ -52,8 +51,8 @@ export function QuoteForm() {
         <CheckCircle2 className="h-10 w-10 text-c2" />
         <h3 className="text-lg font-bold">¡Listo! Enviamos tu solicitud.</h3>
         <p className="max-w-[38ch] text-sm text-ink-soft">
-          Te contactaremos dentro de 24 horas por correo o WhatsApp con tu
-          cotización.
+          Te enviaremos tu cotización dentro de 3 días hábiles por correo o
+          WhatsApp.
         </p>
       </div>
     );
@@ -140,7 +139,7 @@ export function QuoteForm() {
       <button
         type="submit"
         disabled={status === "loading"}
-        className="justify-self-start rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+        className="justify-self-start rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white transition-all hover:opacity-90 active:scale-[0.97] disabled:opacity-60 disabled:active:scale-100"
       >
         {status === "loading" ? "Enviando..." : "Enviar cotización"}
       </button>
@@ -187,19 +186,40 @@ export function QuoteSection() {
             Cuéntanos qué estás celebrando y qué servicios te interesan. Te
             enviamos una cotización a medida.
           </p>
-          <div className="mt-7 rounded-xl border border-border bg-surface p-4.5 text-sm text-ink-soft">
-            Respondemos dentro de 24 horas por correo electrónico. Si
-            prefieres hablar directo, escríbenos por{" "}
+          <div className="mt-7 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-xl bg-surface-alt p-5">
+              <p className="mb-1.5 font-display text-base font-semibold text-c2">
+                Para cotizar
+              </p>
+              <p className="text-sm text-ink-soft">
+                Indícanos cantidad de invitados, lugar, fecha y servicios
+                requeridos. Enviamos la propuesta dentro de 3 días hábiles
+                para tu revisión.
+              </p>
+            </div>
+            <div className="rounded-xl bg-surface-alt p-5">
+              <p className="mb-1.5 font-display text-base font-semibold text-c3">
+                Para agendar
+              </p>
+              <p className="text-sm text-ink-soft">
+                Abono del 50% (cotización vigente por 7 días para
+                realizarlo). El 50% restante se paga el mismo día del
+                evento.
+              </p>
+            </div>
+          </div>
+          <p className="mt-5 text-sm text-ink-soft">
+            ¿Prefieres hablar directo?{" "}
             <a
               href={`https://wa.me/${WHATSAPP_NUMBER}`}
               target="_blank"
               rel="noopener noreferrer"
               className="font-bold text-whatsapp no-underline"
             >
-              WhatsApp {WHATSAPP_DISPLAY}
+              Escríbenos por WhatsApp {WHATSAPP_DISPLAY}
             </a>
             .
-          </div>
+          </p>
         </Reveal>
 
         <Reveal delay={80}>
