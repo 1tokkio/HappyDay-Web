@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme inline {
+@theme {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-surface-alt: var(--surface-alt);
@@ -22,7 +22,9 @@
   --color-accent: var(--c1);
   --color-accent-soft: var(--c1-soft);
   --color-whatsapp: #25d366;
+}
 
+@theme inline {
   --font-display: var(--font-fredoka), "Trebuchet MS", sans-serif;
   --font-body: var(--font-poppins), -apple-system, "Segoe UI", Roboto, sans-serif;
 }
@@ -48,27 +50,25 @@
   --c5-soft: #fff3d1;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #201c20;
-    --surface: #2a252a;
-    --surface-alt: #322b33;
-    --ink: #f5f1f2;
-    --ink-soft: #b8afb4;
-    --border: #423a41;
-    --shadow: rgba(0, 0, 0, 0.45);
+:root[data-theme="dark"] {
+  --bg: #201c20;
+  --surface: #2a252a;
+  --surface-alt: #322b33;
+  --ink: #f5f1f2;
+  --ink-soft: #b8afb4;
+  --border: #423a41;
+  --shadow: rgba(0, 0, 0, 0.45);
 
-    --c1: #ff62b1;
-    --c1-soft: #3d1a2c;
-    --c2: #2fd8d3;
-    --c2-soft: #133433;
-    --c3: #ffa24d;
-    --c3-soft: #3a2414;
-    --c4: #b285d6;
-    --c4-soft: #2c1f3a;
-    --c5: #ffd23d;
-    --c5-soft: #3a2e10;
-  }
+  --c1: #ff62b1;
+  --c1-soft: #3d1a2c;
+  --c2: #2fd8d3;
+  --c2-soft: #133433;
+  --c3: #ffa24d;
+  --c3-soft: #3a2414;
+  --c4: #b285d6;
+  --c4-soft: #2c1f3a;
+  --c5: #ffd23d;
+  --c5-soft: #3a2e10;
 }
 
 * {
@@ -85,6 +85,7 @@ body {
   font-family: var(--font-body);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 h1,

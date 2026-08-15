@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fredoka, Poppins } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const fredoka = Fredoka({
@@ -21,11 +22,15 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#201c20" },
-  ],
+  themeColor: "#ffffff",
 };
+
+const THEME_INIT_SCRIPT = `
+try {
+  var t = localStorage.getItem("happyday-theme");
+  if (t === "dark") document.documentElement.dataset.theme = "dark";
+} catch (e) {}
+`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -34,6 +39,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${fredoka.variable} ${poppins.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bg text-ink">
+        <Script id="theme-init" strategy="beforeInteractive">
+          {THEME_INIT_SCRIPT}
+        </Script>
         {children}
       </body>
     </html>
