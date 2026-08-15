@@ -32,6 +32,8 @@ export function QuoteForm() {
 
     setStatus("loading");
     const formData = new FormData(e.currentTarget);
+    const correo = formData.get("correo");
+    if (correo) formData.set("_replyto", correo);
 
     try {
       const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
