@@ -1,4 +1,5 @@
 import Image, { type StaticImageData } from "next/image";
+import { Check } from "lucide-react";
 import { Reveal } from "./reveal";
 import { TiltCard } from "./tilt-card";
 import jesterGlobos from "../../public/images/jester-globos.jpg";
@@ -14,14 +15,6 @@ import algodon from "../../public/images/algodon.jpg";
 
 type Accent = 1 | 2 | 3 | 4 | 5;
 
-const DOT_CLASSES: Record<Accent, string> = {
-  1: "bg-c1",
-  2: "bg-c2",
-  3: "bg-c3",
-  4: "bg-c4",
-  5: "bg-c5",
-};
-
 const TEXT_CLASSES: Record<Accent, string> = {
   1: "text-c1",
   2: "text-c2",
@@ -30,21 +23,27 @@ const TEXT_CLASSES: Record<Accent, string> = {
   5: "text-c5",
 };
 
+const CHIP_CLASSES: Record<Accent, string> = {
+  1: "bg-c1-soft text-c1",
+  2: "bg-c2-soft text-c2",
+  3: "bg-c3-soft text-c3",
+  4: "bg-c4-soft text-c4",
+  5: "bg-c5-soft text-c5",
+};
+
 function Checklist({ items, accent }: { items: string[]; accent: Accent }) {
   return (
-    <ul className="flex flex-1 flex-col justify-center divide-y divide-border">
+    <div className="mt-1 flex flex-1 flex-wrap content-center gap-2.5">
       {items.map((item) => (
-        <li
+        <span
           key={item}
-          className="group flex items-center gap-4 rounded-lg px-2 py-3.5 transition-colors hover:bg-surface-alt"
+          className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition-transform duration-200 hover:scale-105 ${CHIP_CLASSES[accent]}`}
         >
-          <span
-            className={`h-2.5 w-2.5 shrink-0 rounded-full transition-transform duration-300 group-hover:scale-125 ${DOT_CLASSES[accent]}`}
-          />
-          <span className="text-[1.05rem] font-medium">{item}</span>
-        </li>
+          <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={3} />
+          {item}
+        </span>
       ))}
-    </ul>
+    </div>
   );
 }
 
@@ -203,7 +202,7 @@ export function ServiceCategories() {
             <h3 className="font-display text-2xl font-semibold md:text-3xl">
               El sonido que le pone ritmo a la fiesta
             </h3>
-            <div className="mt-8 grid grid-cols-1 gap-x-10 gap-y-4 sm:grid-cols-2">
+            <div className="mt-7 flex flex-wrap gap-2.5">
               {[
                 "Parlantes de 500W",
                 "Consola de sonido",
@@ -212,10 +211,13 @@ export function ServiceCategories() {
                 "Música infantil y de moda",
                 "Técnico operador o DJ",
               ].map((item) => (
-                <div key={item} className="flex items-center gap-4">
-                  <span className="h-3 w-3 shrink-0 rounded-full bg-c5" />
-                  <span className="text-[1.05rem] font-medium">{item}</span>
-                </div>
+                <span
+                  key={item}
+                  className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition-transform duration-200 hover:scale-105 ${CHIP_CLASSES[5]}`}
+                >
+                  <Check className="h-3.5 w-3.5 shrink-0" strokeWidth={3} />
+                  {item}
+                </span>
               ))}
             </div>
           </Reveal>
