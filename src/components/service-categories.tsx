@@ -1,5 +1,6 @@
 import Image, { type StaticImageData } from "next/image";
 import { Reveal } from "./reveal";
+import { TiltCard } from "./tilt-card";
 import jesterGlobos from "../../public/images/jester-globos.jpg";
 import corporeos from "../../public/images/corporeos.jpg";
 import inflableTeen from "../../public/images/inflable-teen.jpg";
@@ -261,12 +262,11 @@ export function ServiceCategories() {
               <div className="mt-6 flex flex-col gap-4">
                 {["Carrito de palomitas", "Carrito de algodón de azúcar"].map(
                   (item) => (
-                    <div
-                      key={item}
-                      className="rounded-xl border-l-8 border-c5 bg-surface px-6 py-5 text-lg font-semibold shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
-                    >
-                      {item}
-                    </div>
+                    <TiltCard key={item} max={5}>
+                      <div className="rounded-xl border-l-8 border-c5 bg-surface px-6 py-5 text-lg font-semibold shadow-sm">
+                        {item}
+                      </div>
+                    </TiltCard>
                   )
                 )}
               </div>

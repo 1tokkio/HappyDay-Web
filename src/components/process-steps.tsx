@@ -1,4 +1,5 @@
 import { Reveal } from "./reveal";
+import { TiltCard } from "./tilt-card";
 
 const STEPS = [
   {
@@ -35,16 +36,18 @@ export function ProcessSteps() {
           </p>
         </Reveal>
 
-        <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {STEPS.map((step, i) => (
             <Reveal key={step.title} delay={i * 60}>
-              <div>
-                <div className="mb-4 flex h-9.5 w-9.5 items-center justify-center rounded-full border border-border font-display text-lg text-accent">
-                  {i + 1}
+              <TiltCard max={6}>
+                <div className="h-full rounded-2xl border border-border bg-surface p-6 shadow-sm">
+                  <div className="mb-4 flex h-9.5 w-9.5 items-center justify-center rounded-full border border-border font-display text-lg text-accent">
+                    {i + 1}
+                  </div>
+                  <h3 className="mb-2 text-base font-bold">{step.title}</h3>
+                  <p className="text-sm text-ink-soft">{step.description}</p>
                 </div>
-                <h3 className="mb-2 text-base font-bold">{step.title}</h3>
-                <p className="text-sm text-ink-soft">{step.description}</p>
-              </div>
+              </TiltCard>
             </Reveal>
           ))}
         </div>

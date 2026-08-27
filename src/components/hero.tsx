@@ -2,12 +2,14 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import { MessageCircle } from "lucide-react";
 import { waLink, WHATSAPP_DEFAULT_MESSAGE } from "@/lib/constants";
+import { Parallax } from "./parallax";
+import { Counter } from "./counter";
 import zanquistas from "../../public/images/zanquistas.jpg";
 
 const STATS = [
-  { value: "6", label: "categorías de servicios" },
-  { value: "3 días", label: "para tu cotización" },
-  { value: "100%", label: "a domicilio" },
+  { target: 6, suffix: "", label: "categorías de servicios" },
+  { target: 3, suffix: " días", label: "para tu cotización" },
+  { target: 100, suffix: "%", label: "a domicilio" },
 ];
 
 export function Hero() {
@@ -75,7 +77,9 @@ export function Hero() {
           >
             {STATS.map((stat) => (
               <div key={stat.label}>
-                <b className="block font-display text-2xl">{stat.value}</b>
+                <b className="block font-display text-2xl">
+                  <Counter target={stat.target} suffix={stat.suffix} />
+                </b>
                 <span className="text-sm text-ink-soft">{stat.label}</span>
               </div>
             ))}
@@ -88,7 +92,7 @@ export function Hero() {
         >
           <div className="absolute -left-5 -top-5 h-24 w-24 rounded-[40%_60%_55%_45%/55%_45%_60%_40%] bg-c5-soft" />
           <div className="absolute -bottom-6 -right-4 h-16 w-16 rounded-full bg-c2-soft" />
-          <div className="group relative -rotate-2 overflow-hidden rounded-2xl border-4 border-surface shadow-2xl">
+          <Parallax strength={0.08} className="group relative -rotate-2 overflow-hidden rounded-2xl border-4 border-surface shadow-2xl">
             <Image
               src={zanquistas}
               alt="Zanquistas y personajes navideños de Happy Day animando un evento"
@@ -96,7 +100,7 @@ export function Hero() {
               placeholder="blur"
               priority
             />
-          </div>
+          </Parallax>
           <div className="absolute -right-4 top-8 h-3.5 w-3.5 rounded-full bg-c3" />
           <div className="absolute -left-3 bottom-16 h-2.5 w-2.5 rounded-full bg-c4" />
         </div>
