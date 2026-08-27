@@ -1,7 +1,8 @@
 # Happy Day Eventos
 
-Sitio web de Happy Day Eventos — productora de eventos a domicilio (cumpleaños,
-Navidad/fin de año, eventos corporativos). Next.js + Tailwind CSS.
+Sitio web de Happy Day Eventos — productora de eventos a domicilio en
+Puerto Montt (cumpleaños, Navidad/fin de año, eventos corporativos).
+Next.js + Tailwind CSS.
 
 ## Desarrollo local
 
@@ -12,45 +13,28 @@ npm run dev
 
 Abre [http://localhost:3000](http://localhost:3000).
 
-## Configurar el formulario de cotización
+## Cómo funciona la reserva/cotización
 
-El formulario de la sección "Cotizar" envía los datos por correo usando
-[Formspree](https://formspree.io) (plan gratuito, hasta 50 envíos/mes).
-
-1. Crea una cuenta en Formspree y un formulario nuevo.
-2. Copia el ID del formulario (la parte final de la URL, ej.
-   `https://formspree.io/f/abcdwxyz` → el ID es `abcdwxyz`).
-3. Copia `.env.example` a `.env.local` y pega el ID:
-
-   ```bash
-   cp .env.example .env.local
-   ```
-
-   ```
-   NEXT_PUBLIC_FORMSPREE_ID=abcdwxyz
-   ```
-
-Sin este ID configurado, el formulario muestra un aviso pidiendo
-configurarlo y sugiere contactar por WhatsApp en su lugar (no falla en
-silencio).
+El formulario de la sección "Cotizar" no usa backend ni servicio de
+formularios: arma un mensaje con los datos ingresados y abre WhatsApp
+(`wa.me`) con ese mensaje ya escrito, listo para que el cliente solo
+confirme el envío. El número de destino está en
+`src/lib/constants.ts` (`WHATSAPP_NUMBER`).
 
 ## Estructura
 
 - `src/app/page.tsx` — ensambla las secciones de la página.
-- `src/components/` — un componente por sección (hero, servicios, galería,
-  proceso, formulario de cotización, footer, botón de WhatsApp).
-- `src/lib/constants.ts` — número de WhatsApp y helper para generar links
-  `wa.me` con mensaje prellenado.
+- `src/components/` — un componente por sección (header, hero, quiénes
+  somos, servicios por categoría, galería, proceso, formulario de
+  reserva por WhatsApp, footer, botón flotante de WhatsApp, toggle de
+  tema).
+- `src/lib/constants.ts` — número de WhatsApp, correo de contacto, link
+  de Facebook, y el helper para generar links `wa.me` con mensaje
+  prellenado.
 - `src/app/globals.css` — tokens de color (claro/oscuro) y tipografía.
-
-## Reemplazar contenido de marcador
-
-- **Galería** (`src/components/gallery.tsx`): actualmente son tarjetas con
-  degradados de color a modo de marcador. Reemplázalas por fotos reales de
-  eventos usando `next/image` cuando estén disponibles.
-- **Logo** (`src/components/site-header.tsx`, `site-footer.tsx`,
-  `src/app/icon.svg`): ícono genérico inspirado en la marca. Si existe el
-  logo original en SVG/PNG con fondo transparente, reemplázalo ahí.
+  El tema por defecto es claro; el modo oscuro se activa manualmente
+  con el botón del header y se guarda en `localStorage`.
+- `public/images/` — fotos reales de eventos y el logo oficial.
 
 ## Desplegar en Vercel
 
@@ -59,6 +43,4 @@ npx vercel
 ```
 
 O conecta el repositorio en [vercel.com/new](https://vercel.com/new).
-Recuerda configurar `NEXT_PUBLIC_FORMSPREE_ID` como variable de entorno en
-el proyecto de Vercel (Settings → Environment Variables), no solo en
-`.env.local`.
+No se necesita configurar ninguna variable de entorno.

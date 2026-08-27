@@ -3,7 +3,8 @@
 import { useState, type FormEvent, type ReactNode } from "react";
 import { CheckCircle2, AlertCircle } from "lucide-react";
 import { Reveal } from "./reveal";
-import { waLink, WHATSAPP_DISPLAY, WHATSAPP_NUMBER } from "@/lib/constants";
+import { WhatsAppIcon } from "./social-icons";
+import { waLink, WHATSAPP_DISPLAY } from "@/lib/constants";
 
 const SERVICE_OPTIONS = [
   "Animación infantil",
@@ -15,47 +16,74 @@ const SERVICE_OPTIONS = [
   "No estoy seguro / quiero orientación",
 ];
 
-const FORMSPREE_ID = process.env.NEXT_PUBLIC_FORMSPREE_ID;
+function buildReservationMessage(data: FormData) {
+  const nombre = String(data.get("nombre") || "").trim();
+  const telefono = String(data.get("telefono") || "").trim();
+  const correo = String(data.get("correo") || "").trim();
+  const tipo = String(data.get("tipo") || "").trim();
+  const fecha = String(data.get("fecha") || "").trim();
+  const invitados = String(data.get("invitados") || "").trim();
+  const servicios = data.getAll("servicios").join(", ");
+  const detalle = String(data.get("detalle") || "").trim();
 
-type Status = "idle" | "loading" | "success" | "error" | "not-configured";
+  const lines = [
+    "Hola, quiero reservar un evento con Happy Day 🎉",
+    "",
+    `*Nombre:* ${nombre}`,
+    `*Teléfono:* ${telefono}`,
+  ];
+  if (correo) lines.push(`*Correo:* ${correo}`);
+  lines.push(`*Tipo de evento:* ${tipo}`);
+  if (fecha) lines.push(`*Fecha estimada:* ${fecha}`);
+  if (invitados) lines.push(`*N° de invitados:* ${invitados}`);
+  if (servicios) lines.push(`*Servicios de interés:* ${servicios}`);
+  if (detalle) lines.push(`*Detalles:* ${detalle}`);
+
+  return lines.join("\n");
+}
 
 export function QuoteForm() {
-  const [status, setStatus] = useState<Status>("idle");
+  const [waUrl, setWaUrl] = useState<string | null>(null);
+  const [popupBlocked, setPopupBlocked] = useState(false);
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!FORMSPREE_ID) {
-      setStatus("not-configured");
-      return;
-    }
+    const message = buildReservationMessage(new FormData(e.currentTarget));
+    const url = waLink(message);
+    const win = window.open(url, "_blank", "noopener,noreferrer");
 
-    setStatus("loading");
-    const formData = new FormData(e.currentTarget);
-    const correo = formData.get("correo");
-    if (correo) formData.set("_replyto", correo);
-
-    try {
-      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-        method: "POST",
-        body: formData,
-        headers: { Accept: "application/json" },
-      });
-      setStatus(res.ok ? "success" : "error");
-    } catch {
-      setStatus("error");
-    }
+    setWaUrl(url);
+    setPopupBlocked(!win);
   }
 
-  if (status === "success") {
+  if (waUrl) {
     return (
       <div className="flex h-full flex-col items-center justify-center gap-3 rounded-2xl border border-border bg-surface p-10 text-center">
         <CheckCircle2 className="h-10 w-10 text-c2" />
-        <h3 className="text-lg font-bold">¡Listo! Enviamos tu solicitud.</h3>
-        <p className="max-w-[38ch] text-sm text-ink-soft">
-          Te enviaremos tu cotización dentro de 3 días hábiles por correo o
-          WhatsApp.
-        </p>
+        <h3 className="text-lg font-bold">¡Tu mensaje está listo!</h3>
+        {popupBlocked ? (
+          <>
+            <p className="max-w-[38ch] text-sm text-ink-soft">
+              Tu navegador bloqueó la ventana emergente. Haz clic para abrir
+              WhatsApp con tu solicitud ya escrita.
+            </p>
+            <a
+              href={waUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-flex items-center gap-2 rounded-lg bg-whatsapp px-6 py-3 text-sm font-semibold text-white transition-all hover:opacity-90 active:scale-[0.97]"
+            >
+              <WhatsAppIcon className="h-[18px] w-[18px]" />
+              Abrir WhatsApp
+            </a>
+          </>
+        ) : (
+          <p className="max-w-[38ch] text-sm text-ink-soft">
+            Te abrimos WhatsApp con tu solicitud ya escrita — solo confirma
+            el envío allá.
+          </p>
+        )}
       </div>
     );
   }
@@ -73,7 +101,7 @@ export function QuoteForm() {
 
       <div className="grid grid-cols-1 gap-4.5 sm:grid-cols-2">
         <Field label="Correo electrónico" htmlFor="correo">
-          <input id="correo" name="correo" type="email" required placeholder="tu@correo.cl" className={inputClass} />
+          <input id="correo" name="correo" type="email" placeholder="tu@correo.cl" className={inputClass} />
         </Field>
         <Field label="Tipo de evento" htmlFor="tipo">
           <select id="tipo" name="tipo" className={inputClass} defaultValue="Cumpleaños infantil">
@@ -115,38 +143,19 @@ export function QuoteForm() {
         />
       </Field>
 
-      {status === "error" && (
-        <p className="flex items-center gap-2 text-sm text-red-600">
-          <AlertCircle className="h-4 w-4 shrink-0" />
-          No pudimos enviar tu solicitud. Intenta de nuevo o escríbenos por{" "}
-          <a href={waLink("Hola, quiero cotizar un evento con Happy Day")} className="font-semibold underline" target="_blank" rel="noopener noreferrer">
-            WhatsApp
-          </a>
-          .
-        </p>
-      )}
-
-      {status === "not-configured" && (
-        <p className="flex items-center gap-2 text-sm text-c3">
-          <AlertCircle className="h-4 w-4 shrink-0" />
-          El formulario aún no está conectado. Configura
-          NEXT_PUBLIC_FORMSPREE_ID o escríbenos directo por{" "}
-          <a href={waLink("Hola, quiero cotizar un evento con Happy Day")} className="font-semibold underline" target="_blank" rel="noopener noreferrer">
-            WhatsApp {WHATSAPP_DISPLAY}
-          </a>
-          .
-        </p>
-      )}
+      <p className="flex items-start gap-2 text-xs text-ink-soft">
+        <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+        Al enviar, abrimos WhatsApp con estos datos ya escritos en un
+        mensaje para {WHATSAPP_DISPLAY}. Tú confirmas el envío desde ahí.
+      </p>
 
       <button
         type="submit"
-        disabled={status === "loading"}
-        className="justify-self-start rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white transition-all hover:opacity-90 active:scale-[0.97] disabled:opacity-60 disabled:active:scale-100"
+        className="inline-flex items-center justify-center gap-2 justify-self-start rounded-lg bg-whatsapp px-6 py-3 text-sm font-semibold text-white transition-all hover:opacity-90 active:scale-[0.97]"
       >
-        {status === "loading" ? "Enviando..." : "Enviar cotización"}
+        <WhatsAppIcon className="h-[18px] w-[18px]" />
+        Reservar por WhatsApp
       </button>
-
-      <input type="hidden" name="_subject" value="Nueva cotización — Happy Day Eventos" />
     </form>
   );
 }
@@ -185,8 +194,9 @@ export function QuoteSection() {
             Pídenos una propuesta para tu evento
           </h2>
           <p className="mt-3.5 max-w-[42ch] text-lg text-ink-soft">
-            Cuéntanos qué estás celebrando y qué servicios te interesan. Te
-            enviamos una cotización a medida.
+            Completa el formulario y te abrimos WhatsApp con todo listo
+            para enviar — así hablamos directo y coordinamos tu evento más
+            rápido.
           </p>
           <div className="mt-7 grid gap-4 sm:grid-cols-2">
             <div className="rounded-xl bg-surface-alt p-5">
@@ -210,18 +220,6 @@ export function QuoteSection() {
               </p>
             </div>
           </div>
-          <p className="mt-5 text-sm text-ink-soft">
-            ¿Prefieres hablar directo?{" "}
-            <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-bold text-whatsapp no-underline"
-            >
-              Escríbenos por WhatsApp {WHATSAPP_DISPLAY}
-            </a>
-            .
-          </p>
         </Reveal>
 
         <Reveal delay={80}>
